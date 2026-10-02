@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity & Wellness Plans</title>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Work Sans', sans-serif;
+            min-height: 100vh;
+            padding-top: 3%;
+            overflow: hidden;
+            background-image: linear-gradient(100deg, #0B3040, #515452);
+            color: #eeeff6;
+        }
+        #header {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            font-size: 3rem;
+            min-height: 25vh;
+            width: 100%;
+        }
+        #title {
+            font-size: 51px;
+            border-right: solid 3px rgba(0, 0, 0, 0.75);
+            white-space: pre;
+            overflow: hidden;
+            letter-spacing: 0.14rem;
+            margin-top: 25px;
+            margin-bottom: 20px;
+            max-width: 800px;
+            animation: animated-text 2s steps(11,end) 0.5s 1 normal both, animated-cursor 750ms steps(11,end) infinite;
+        }
+        @keyframes animated-text {
+            from { width: 0%; }
+            to { width: 800px; }
+        }
+        @keyframes animated-cursor {
+            from { border-right-color: rgba(0, 0, 0, 0.75); }
+            to { border-right-color: transparent; }
+        }
+
+        #quiz-container {
+    width: 50%;
+    max-height: 400px; /* Limit height */
+    overflow-y: auto;  /* Enable scrolling */
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    color: black;
+    text-align: center;
+}
+
+/* Style the quiz controls */
+#quiz-controls {
+    margin-top: 10px;
+    text-align: center;
+}
+
+        button {
+            padding: 10px 20px;
+            background-color: #062e3f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #062e3f;
+        }
+        #progress-bar-container {
+    width: 100%;
+    height: 10px;
+    background-color: #ddd;
+    margin: 20px 0;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: #062e3f;
+    transition: width 0.5s;
+}
+.navbar {
+            position: fixed; /* Ensures it stays at the top */
+            top: 0;
+            left: 0;
+            width: 100%; /* Full width */
+            display: flex;
+            align-items: center;
+            background-color: #0B3040; /* Dark blue background */
+            height: 53px; /* Adjust based on preference */
+            z-index: 1000; /* Ensures it stays above other content */
+        }
+
+        .navbar img {
+            height: 53px; /* Adjust logo size */
+            margin-right: 20px;
+            margin-left: 0px;
+            background-color: white; /* White background for the image */
+
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-right: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <img src="img.png" alt="Balance Buddy Logo">
+        <ul class="nav-links">
+            <li><a href="http://localhost/Buddy%20Forum/index.php">Forum</a></li>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="https://balance-buddy-m8dq.onrender.com/#/tasks">Tasks</a></li>
+            <li><a href="https://balance-buddy-m8dq.onrender.com/#/diary?q=">Journal</a></li>
+            <li><a href="plans.html">Plan</a></li>
+        </ul>
+    </nav>
+
+    <div id="header">
+        <div id="title">Productivity & Wellness Plans</div>
+    </div>
+    <div id="quiz-container">
+      <h1>📝 Questionnaire</h1>
+      <div id="progress-bar-container">
+          <div id="progress-bar"></div>
+      </div>
+      <div id="questionnaire"></div>
+      <button id="submit-btn" style="display: none;">Generate Report</button>
+      <div id="report"></div>
+  </div>
+  
+  <!-- Move buttons below the quiz container -->
+  <div id="quiz-controls">
+      <button id="back-btn" style="display: none;">Back</button>
+      <button id="next-btn">Next</button>
+  </div>
+  
+        <script>
+
+function toggleNav() {
+    const navMenu = document.querySelector(".nav-menu");
+    navMenu.classList.toggle("show");
+}
+
+
+           let questions = [
+    { question: "What is your name?", type: "text", id: "name" },
+    { question: "What is your MBTI personality type?", type: "select", options: ["INTJ", "INTP", "ENTJ", "ENTP", "INFJ", "INFP", "ENFJ", "ENFP", "ISTJ", "ISFJ", "ESTJ", "ESFJ", "ISTP", "ISFP", "ESTP", "ESFP"], id: "mbti" },
+    { question: "When do you feel most productive?", type: "radio", options: ["Morning", "Afternoon", "Evening", "Night"], id: "peak_time" },
+    { question: "Which work environment do you prefer?", type: "radio", options: ["Quiet space", "Background music", "Café vibes", "Outdoor setting"], id: "environment" },
+    { question: "What type of learner are you?", type: "radio", options: ["Visual", "Auditory", "Kinesthetic", "Reading/Writing"], id: "learning_style" },
+    { question: "Do you prefer structured or flexible schedules?", type: "radio", options: ["Structured", "Flexible"], id: "schedule" },
+    { question: "How do you usually handle stress?", type: "radio", options: ["Exercise", "Meditation", "Talking to someone", "Working on a hobby"], id: "stress_management" },
+    { question: "What is your preferred break activity?", type: "radio", options: ["Walking", "Listening to music", "Stretching", "Gaming"], id: "break_activity" },
+    { question: "How do you track tasks?", type: "radio", options: ["To-do lists", "Planner", "Digital apps", "I don’t track"], id: "task_tracking" },
+    { question: "How many hours of sleep do you get?", type: "radio", options: ["Less than 5", "5-6", "7-8", "More than 8"], id: "sleep" },
+    { question: "How do you handle procrastination?", type: "radio", options: ["Strict deadlines", "Pomodoro method", "Accountability partner", "I struggle with it"], id: "procrastination" },
+    { question: "What motivates you to complete tasks?", type: "radio", options: ["Rewards", "Deadlines", "Sense of accomplishment", "Avoiding stress"], id: "motivation" }
+];
+
+let currentIndex = 0;
+let responses = {};
+
+function updateProgressBar() {
+    const progress = ((currentIndex + 1) / questions.length) * 100;
+    document.getElementById("progress-bar").style.width = progress + "%";
+}
+
+function displayQuestion() {
+    const questionnaire = document.getElementById("questionnaire");
+    questionnaire.innerHTML = "";
+    let q = questions[currentIndex];
+    let questionElement = `<p>${q.question}</p>`;
+    
+    if (q.type === "text") {
+        questionElement += `<input type="text" id="${q.id}" name="${q.id}" value="${responses[q.id] || ''}">`;
+    } else if (q.type === "select") {
+        questionElement += `<select id="${q.id}" name="${q.id}">`;
+        q.options.forEach(option => {
+            questionElement += `<option value="${option}" ${responses[q.id] === option ? 'selected' : ''}>${option}</option>`;
+        });
+        questionElement += "</select>";
+    } else if (q.type === "radio") {
+        q.options.forEach(option => {
+            questionElement += `<input type="radio" name="${q.id}" value="${option}" ${responses[q.id] === option ? 'checked' : ''}> ${option}<br>`;
+        });
+    }
+    questionnaire.innerHTML = questionElement;
+    updateProgressBar();
+    document.getElementById("back-btn").style.display = currentIndex > 0 ? "inline-block" : "none";
+    document.getElementById("next-btn").style.display = currentIndex < questions.length - 1 ? "inline-block" : "none";
+    document.getElementById("submit-btn").style.display = currentIndex === questions.length - 1 ? "inline-block" : "none";
+}
+
+document.getElementById("next-btn").addEventListener("click", function() {
+    const q = questions[currentIndex];
+    let input = document.querySelector(`[name="${q.id}"]:checked`) || document.getElementById(q.id);
+    
+    if (!input || input.value.trim() === "") {
+        alert("Please answer the question before proceeding.");
+        return;
+    }
+    responses[q.id] = input.value;
+    currentIndex++;
+    displayQuestion();
+});
+
+document.getElementById("back-btn").addEventListener("click", function() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        displayQuestion();
+    }
+});
+
+document.getElementById("submit-btn").addEventListener("click", function() {
+    let reportText = `<h2>${responses.name || 'Your'} Personalized Productivity & Wellness Report</h2>`;
+    
+    if (responses.peak_time) {
+        reportText += `<p>You are most productive in the <b>${responses.peak_time}</b>. Optimize your schedule around this time.</p>`;
+    }
+    if (responses.environment) {
+        reportText += `<p>You prefer working in a <b>${responses.environment}</b> environment. Adjust your workspace accordingly.</p>`;
+    }
+    if (responses.learning_style) {
+        reportText += `<p>Your learning style is <b>${responses.learning_style}</b>, so tailor your study techniques to this.</p>`;
+    }
+    if (responses.sleep) {
+        reportText += `<p>You get <b>${responses.sleep}</b> hours of sleep. Aim for 7-8 hours for optimal productivity.</p>`;
+    }
+    if (responses.stress_management) {
+        reportText += `<p>You handle stress by <b>${responses.stress_management}</b>. Continue using effective strategies.</p>`;
+    }
+    if (responses.procrastination === "I struggle with it") {
+        reportText += `<p>Consider using the Pomodoro method or accountability partners to manage procrastination better.</p>`;
+    }
+    
+    reportText += "<p>For mental wellness, try incorporating mindfulness and relaxation techniques.</p>";
+    document.getElementById("report").innerHTML = reportText;
+});
+
+displayQuestion();
+            
+        </script>
+    </body>
+    </html>
+    

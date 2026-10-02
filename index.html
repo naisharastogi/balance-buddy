@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#062e3f">
+    <meta name="description" content="Your PA for everything! Helping you find the work-life balance you deserve!">
+
+    <!-- Google Font: Work Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+
+    <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+    <link rel="stylesheet" href="main.css">
+    <title>Balance Buddy</title>
+
+</head>
+
+<body>
+    <div id="header">
+        <div class="flexrow-container">
+            <a href="plans.html" class="top-left-button">Plans</a> <!-- Replace About with Productivity -->
+            <button id="mindfulGameButton" class="mindful-game-btn">Game</button> 
+    <div id="mindfulGamePopup" class="mindful-game-popup">
+        <button id="mindfulGameCloseBtn" class="mindful-game-close-btn">X</button>
+        <div id="mindfulGameTileGrid" class="mindful-game-tile-grid"></div>
+        <div id="mindfulGameMindfulnessTipContainer"></div> <!-- Container for mindfulness tip -->
+      </div>
+            <div class="standard-theme theme-selector"></div>
+            <div class="light-theme theme-selector"></div>
+            <div class="darker-theme theme-selector"></div>
+        </div>
+        <h1 id="title">Balance Buddy<div id="border"></div></h1>
+    </div>
+
+    <div id="form" class="hidden-form">
+        <form>
+            <input class="todo-input" type="text" placeholder="Add main tasks.">
+            <button class="todo-btn" type="submit">I Got This!</button>
+        </form>
+    </div>    
+
+    <div>
+        <p><span id="datetime"></span></p>
+        <script src="JS/time.js"></script>
+    </div>
+
+    <div class="dashboard">
+        <div class="box">
+            <div class="box-header">Affirmations ➕</div>
+            <div class="affirmations-box" id="affirmations-box">
+            </div>
+        </div>    
+        
+        <div class="box">
+            <div class="box-header">Weekly Challenges 🎉</div>
+            <div class="weekly-challenges-box" id="weekly-challenges-box">
+                <div class="week">
+                    <input type="checkbox" id="week-1" class="checkbox">
+                    <span class="week-text">1st-6th February: <strong>Productivity</strong>: Set weekly goals and break them into daily tasks. <strong>Wellness</strong>: Drink 2L of water daily and practice 10 minutes of mindfulness.</span>
+                </div>
+                <div class="divider"></div>
+    
+                <div class="week">
+                    <input type="checkbox" id="week-2" class="checkbox">
+                    <span class="week-text">7th-11th February: <strong>Productivity</strong>: Dedicate 2 hours each day for focused work. <strong>Wellness</strong>: Try a new fitness activity and practice daily gratitude.</span>
+                </div>
+                <div class="divider"></div>
+    
+                <div class="week">
+                    <input type="checkbox" id="week-3" class="checkbox">
+                    <span class="week-text">12th-17th February: <strong>Productivity</strong>: Focus on finishing pending tasks and planning the next week. <strong>Wellness</strong>: Schedule daily self-care and cook a new healthy recipe.</span>
+                </div>
+                <div class="divider"></div>
+    
+                <div class="week">
+                    <input type="checkbox" id="week-4" class="checkbox">
+                    <span class="week-text">17th-22th February: <strong>Productivity</strong>: Reflect on your progress and declutter your workspace. <strong>Wellness</strong>: Stretch daily and unwind with a creative activity.</span>
+                </div>
+                <div class="divider"></div>
+    
+                <div class="week">
+                    <input type="checkbox" id="week-5" class="checkbox">
+                    <span class="week-text">23th-28th February: <strong>Productivity</strong>: Set intentions for the new year and prepare your workspace. <strong>Wellness</strong>: Digital detox for a day and celebrate your achievements.</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="box">
+            <div class="box-header">Notes 📑</div>
+            <div class="notes-box">
+                <textarea class="notes-input" placeholder="Write your notes here..." style="color: black;"></textarea>
+                <button class="save-btn" onclick="saveNote()"><i class="fas fa-check"></i></button>
+                <button class="delete-btn" onclick="deleteNote()"><i class="fas fa-trash-alt"></i></button>
+            </div>
+        </div>
+        
+        <div class="box">
+            <div class="box-header">Streak 🔥</div>
+            <div id="streak-box" class="streak-box">
+                <div id="streak-display">
+                    <img src="fire.gif" alt="Fire" id="streak-fire" />
+                    <span id="streak-counter">Streak: 0</span>
+                    <span id="high-score">Highest: 0</span>
+                </div>
+                <button id="check-in-button" onclick="checkIn()" disabled>Check In</button>
+            </div>
+                    </div>
+    </div>
+    
+    
+
+    <div id="myUnOrdList">
+        <ul class="todo-list">
+        </ul>
+    </div>
+
+    <script src="JS/main.js" type="text/javascript"></script>
+
+    <div id="bottom-buttons">
+        <a href="https://balance-buddy-m8dq.onrender.com/#/tasks" class="horizontal-button">Tasks</a>
+        <a href="https://balance-buddy-m8dq.onrender.com/#/diary?q=" class="horizontal-button">Journal</a>
+        <a href="http://localhost/Buddy%20Forum/index.php" class="horizontal-button">Forum</a>
+    </div>     
+
+    <div class="tasks-container">
+        <button class="tasks-button" id="openPopup">Pomodoro</button>
+    </div>  
+
+    <div class="popup" id="pomodoroPopup">
+      <div class="popup-header">
+        Pomodoro Timer
+        <span class="close" id="closePopup">X</span>
+      </div>
+      <div class="popup-content">
+        <label for="workDuration">Work Duration (minutes):</label><br>
+        <input type="number" id="workDuration" min="1" value="25"><br>
+        <label for="breakDuration">Break Duration (minutes):</label><br>
+        <input type="number" id="breakDuration" min="1" value="5"><br>
+        <div class="controls">
+          <button id="startTimer">Start</button>
+          <button id="pauseTimer">Pause</button>
+          <button id="resetTimer">Reset</button>
+        </div>
+        <h2 id="timerDisplay">25:00</h2>
+      </div>
+    </div>
+    
+    <div class="chat-button" id="chat-button">
+        <i class="fas fa-comments"></i>
+    </div>
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">Chatbot for Assistance</div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="bot-message">Hello! How can I assist you today? To see a list of options respond with "hello!"</div>
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        const chatButton = document.getElementById("chat-button");
+        const chatContainer = document.getElementById("chat-container");
+        const sendButton = document.getElementById("send-button");
+        const userInputField = document.getElementById("user-input");
+    
+        // Toggle chat container visibility
+        chatButton.addEventListener("click", function () {
+            chatContainer.style.display = chatContainer.style.display === "block" ? "none" : "block";
+        });
+    
+        // Send message when button is clicked
+        sendButton.addEventListener("click", sendMessage);
+    
+        // Allow sending message with Enter key
+        userInputField.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    
+        function sendMessage() {
+            const userInput = userInputField.value.trim();
+            if (userInput === "") return; // Prevent sending empty messages
+    
+            const chatMessages = document.getElementById("chat-messages");
+    
+            // Add user message
+            const userMessage = document.createElement("div");
+            userMessage.className = "user-message";
+            userMessage.textContent = userInput;
+            chatMessages.appendChild(userMessage);
+    
+            // Get bot response
+            const botResponse = getBotResponse(userInput);
+    
+            // Add bot message
+            const botMessage = document.createElement("div");
+            botMessage.className = "bot-message";
+            botMessage.textContent = botResponse;
+            chatMessages.appendChild(botMessage);
+    
+            // Clear input field and scroll chat to bottom
+            userInputField.value = "";
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    
+        function getBotResponse(userInput) {
+    userInput = userInput.toLowerCase().trim();
+
+    if (userInput.includes("hello")) {
+        return "Hello! How can I assist you today? Press:\n1️⃣ Study Tips\n2️⃣ Motivation\n3️⃣ Task Management\n4️⃣ Stress Relief\n5️⃣ Time Management\n6️⃣ Productivity Hacks\n7️⃣ Self-Care Tips 8️⃣ Onboarding Help";
+    } 
+    
+    // Main category selection
+    else if (userInput.includes("1")) {
+        return "📚 Study Tip: Try the Pomodoro technique—25 minutes of focused work, then a 5-minute break! \n\nWhich aspect do you struggle with most?\nA) Concentration\nB) Retaining information\nC) Procrastination";
+    } 
+    else if (userInput.includes("2")) {
+        return "💪 Stay motivated! Set small, achievable goals and reward yourself. \n\nWhat helps you stay motivated?\nA) Rewards\nB) Positive affirmations\nC) Accountability partners";
+    } 
+    else if (userInput.includes("3")) {
+        return "✅ Task Management: Prioritize tasks using Eisenhower's Matrix (Urgent/Important). \n\nHow do you currently manage your tasks?\nA) To-do lists\nB) Calendar planning\nC) I just go with the flow";
+    } 
+    else if (userInput.includes("4")) {
+        return "🧘 Stress Relief: Deep breathing and short walks can help. \n\nHow do you usually de-stress?\nA) Exercise\nB) Meditation\nC) Music";
+    } 
+    else if (userInput.includes("5")) {
+        return "⏳ Time Management: Block distractions and set clear goals for each session. \n\nWhich is your biggest struggle?\nA) Distractions\nB) Planning ahead\nC) Sticking to schedules";
+    } 
+    else if (userInput.includes("6")) {
+        return "🚀 Productivity Hack: The 'Two-Minute Rule'—If a task takes less than 2 minutes, do it immediately! \n\nWhat’s your biggest productivity issue?\nA) Multitasking\nB) Low energy\nC) Lack of focus";
+    } 
+    else if (userInput.includes("7")) {
+        return "🌿 Self-Care Tip: Make sure you get enough sleep and hydrate! \n\nWhat self-care activity do you enjoy most?\nA) Reading\nB) Yoga\nC) Watching a movie";
+    }
+    else if (userInput.includes("8")) {
+    return "🌐 Welcome to the platform! Need help getting started?\n\nChoose what you need help with:\nA) Creating an account & logging in\nB) Navigating the dashboard\nC) Understanding features & settings";
+    }
+        else if (userInput.includes("concentration")) {
+            return "🧠 Focus Tip: Remove distractions, use noise-canceling headphones, and try deep work sessions!";
+        } else if (userInput.includes("rewards")) {
+            return "🎁 Reward System: Set milestones and treat yourself (small wins matter)!";
+        } else if (userInput.includes("to-do lists")) {
+            return "📋 To-Do List Hack: Keep it short and focus on the top 3 priorities!";
+        } else if (userInput.includes("exercise")) {
+            return "🏃‍♂️ Exercise Benefits: Releases endorphins, reducing stress and boosting mood!";
+        } else if (userInput.includes("distractions")) {
+            return "🚫 Distraction Blockers: Use website blockers and set a dedicated study zone!";
+        } else if (userInput.includes("multitasking")) {
+            return "🔄 Single Tasking: Focus on one thing at a time—multitasking reduces efficiency!";
+        } else if (userInput.includes("reading")) {
+            return "📖 Reading Tip: Choose books that inspire and relax you!";
+        }
+        else if (userInput.includes("retaining information")) {
+            return "📖 Memory Hack: Use mnemonics, visualization, and teach others to reinforce learning!";
+        } else if (userInput.includes("positive affirmations")) {
+            return "💬 Daily Affirmation: 'I am capable, and I will succeed!'";
+        } else if (userInput.includes("calendar planning")) {
+            return "🗓️ Planning Tip: Use time blocking to manage tasks effectively!";
+        } else if (userInput.includes("meditation")) {
+            return "🧘 Meditation Benefits: Helps with mindfulness and stress relief!";
+        } else if (userInput.includes("planning ahead")) {
+            return "📅 Strategic Planning: Use a planner to map out your week in advance!";
+        } else if (userInput.includes("low energy")) {
+            return "⚡ Energy Boost: Stay hydrated, eat well, and take power naps!";
+        } else if (userInput.includes("yoga")) {
+            return "🧘 Yoga Benefits: Helps with flexibility, relaxation, and stress management!";
+        }
+        else if (userInput.includes("procrastination")) {
+            return "🚀 Procrastination Fix: Set a 5-minute timer and just start!";
+        } else if (userInput.includes("accountability partners")) {
+            return "🤝 Accountability: Partner up with a friend for mutual motivation!";
+        } else if (userInput.includes("going with the flow")) {
+            return "🌊 Flexible Planning: If a rigid structure isn’t for you, use adaptable task lists!";
+        } else if (userInput.includes("music")) {
+            return "🎶 Music for Relaxation: Try lo-fi beats or classical tunes for focus!";
+        } else if (userInput.includes("sticking to schedules")) {
+            return "📆 Scheduling Hack: Use reminders and alarms to stay on track!";
+        } else if (userInput.includes("lack of focus")) {
+            return "🔍 Focus Improvement: Try deep work sessions and eliminate background noise!";
+        } else if (userInput.includes("watching a movie")) {
+            return "🎬 Movie Night: Pick a feel-good movie for a perfect self-care day!";
+        }
+        else if (userInput.includes("a") && (userInput.includes("account") || userInput.includes("login"))) {
+        return "📝 To create an account:\n1️⃣ Click the 'Sign Up' button on the homepage.\n2️⃣ Enter your email, create a password, and set up your profile.\n3️⃣ Check your email for a verification link and click it.\n\n🔑 To log in:\n1️⃣ Click 'Log In' on the homepage.\n2️⃣ Enter your email and password.\n3️⃣ Click 'Remember Me' for easier access next time!\n\nNeed more help? Type 'support'.";
+    }
+
+    // B) Navigating the Dashboard
+    else if (userInput.includes("dashboard")) {
+        return "📊 Dashboard Overview:\n- The dashboard is your homepage where you see your tasks, study plans, and progress.\n- 🏠 Home: Your main space with quick access to features.\n- 📆 Planner: View & schedule your study sessions.\n- 🎯 Goals: Track your productivity streaks.\n- 💬 Community: Join discussions & get tips.\n\nWant a visual guide? Type 'tutorial'.";
+    }
+
+    // C) Understanding Features & Settings
+    else if (userInput.includes("features")) {
+        return "⚙️ Features & Settings:\n\n✅ **Task Management** – Add, edit, and organize tasks.\n✅ **Mood Tracker** – Log daily reflections.\n✅ **Study Plans** – Set schedules & track progress.\n✅ **Forum & Chat** – Connect with others.\n✅ **Gamification** – Streaks, rewards & challenges.\n\nWant to learn more about a specific feature? Type:\n- 'tasks'\n- 'mood'\n- 'plans'\n- 'forum'\n- 'gamification'";
+    }
+
+    // Feature-Specific Follow-Ups
+    else if (userInput.includes("tasks")) {
+        return "📝 **Task Management**:\n- Create, edit, and prioritize tasks.\n- Set deadlines & reminders.\n- Organize tasks by categories for better productivity.";
+    }
+    else if (userInput.includes("mood")) {
+        return "😊 **Mood Tracker**:\n- Log your daily moods & reflections.\n- Track emotional trends over time.\n- Get insights & personalized recommendations.";
+    }
+    else if (userInput.includes("plans")) {
+        return "📆 **Study Plans**:\n- Customize study schedules based on your goals.\n- Set session timers & break reminders.\n- Track your progress with visual analytics.";
+    }
+    else if (userInput.includes("forum")) {
+        return "💬 **Forum & Chat**:\n- Engage with a supportive community.\n- Share study tips & resources.\n- Participate in discussions & Q&A sessions.";
+    }
+    else if (userInput.includes("gamification")) {
+        return "🏆 **Gamification Features**:\n- Earn streaks for consistent progress.\n- Unlock rewards & achievements.\n- Compete with friends for motivation!";
+    }
+
+    // Support or Tutorial
+    else if (userInput.includes("support")) {
+        return "📞 Need help? Visit our support page or contact us at support@example.com.";
+    }
+    else if (userInput.includes("tutorial")) {
+        return "🎥 Watch our step-by-step tutorial here: [Insert Link].";
+    }
+    else{
+    return "I didn't get that. Please say 'hello' to start or choose a number from the list!";
+        }
+        }
+    </script>
+
+    <script>
+        
+function saveNote() {
+    const noteText = document.querySelector('.notes-input').value;
+    localStorage.setItem('savedNote', noteText); 
+    alert('Note saved!');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const savedNote = localStorage.getItem('savedNote');
+    if (savedNote) {
+        document.querySelector('.notes-input').value = savedNote; 
+    }
+});
+function deleteNote() {
+    localStorage.removeItem('savedNote');
+
+    document.querySelector('.notes-input').value = '';
+
+    alert('Note deleted!');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const savedNote = localStorage.getItem('savedNote');
+    if (savedNote) {
+        document.querySelector('.notes-input').value = savedNote;  
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+            const weekCheckboxes = ['week-1', 'week-2', 'week-3', 'week-4', 'week-5'];
+            weekCheckboxes.forEach(id => {
+                const checkbox = document.getElementById(id);
+                if (localStorage.getItem(id) === 'checked') {
+                    checkbox.checked = true;
+                }
+
+                checkbox.addEventListener('change', function () {
+                    if (checkbox.checked) {
+                        localStorage.setItem(id, 'checked');
+                    } else {
+                        localStorage.removeItem(id);
+                    }
+                });
+            });
+        });
+        const affirmations = [
+"I am worthy of love and respect.", "I am capable of achieving greatness", "Every day, I grow stronger and more confident", "I choose to focus on the good in my life", "I am surrounded by love and positivity", "My life is full of abundance and joy", "I deserve happiness and success", "I am grateful for all the blessings in my life", "I radiate positivity and attract positive energy", "I am proud of who I am becoming", "I trust the process of life", "I am enough just as I am", "I let go of fear and embrace love", "I create my own opportunities", "I am resilient and can handle any challenge", "My mind is calm and my body is healthy", "I deserve to be happy and loved", "I am at peace with my past and excited for my future", "I release any negativity that does not serve me", "I am capable of achieving great things", "I choose to focus on the positive aspects of my life", "I am grateful for the blessings in my life", "I trust myself to make the right decisions", "I am strong and resilient", "I let go of things I cannot control", "I am surrounded by love and positivity", "I am constantly growing and evolving", "I believe in myself and my abilities", "I am at peace with my past and excited about my future", "I am deserving of happiness and success", "I attract good things into my life", "I am healthy, happy, and radiant", "I am confident in who I am", "I am grateful for this moment and find joy in it", "I release fear and embrace love", "I am open to new and wonderful opportunities", "I am in charge of my own happiness", "I have the power to create positive change in my life", "I am enough just as I am", "I am kind to myself and others", "I am grateful for the abundance in my life", "I am a magnet for positivity and joy", "I am free to be myself", "I forgive myself and others for past mistakes", "I am calm, patient, and in control", "I am a unique and valuable individual", "I choose happiness and joy every day", "I am a source of inspiration for others", "I am grateful for my body and its strength", "I am capable of handling any challenges that come my way", "I am aligned with the energy of abundance", "I am surrounded by supportive and loving people", "I am confident in my ability to achieve my goals", "I let go of negative thoughts and embrace positivity", "I am proud of who I am becoming", "I am worthy of all the good things in life", "I am in tune with the universe's flow", "I am grateful for my journey and how far I've come", "I radiate confidence, self-respect, and inner harmony", "I am open to giving and receiving love", "I am grateful for every experience that has shaped me", "I am a powerful creator of my reality", "I am grateful for the lessons life teaches me", "I am at peace with myself and the world", "I am focused, motivated, and disciplined", "I am grateful for the simple joys in life", "I am creative and full of ideas", "I am loved, and I love deeply", "I am proud of my achievements, no matter how small", "I am learning and growing every day", "I am resilient in the face of adversity", "I choose to let go of worry and embrace hope", "I am at home in my body and comfortable in my skin", "I am always learning and evolving into my best self", "I am grateful for the gift of today", "I am kind, patient, and understanding", "I deserve love, respect, and kindness", "I am surrounded by beauty and opportunities", "I am thankful for my mind, body, and soul", "I am deserving of self-care and self-love", "I am free to create the life I desire", "I am grateful for the love in my life", "I am courageous, and I stand up for myself", "I am excited for the opportunities that await me", "I am open to new possibilities and experiences", "I embrace change and welcome new beginnings", "I trust that everything is unfolding as it should", "I am deserving of all the wonderful things life has to offer", "I am a positive influence on the world around me", "I am grateful for the people who support and love me", "I am an important part of the universe", "I am always moving forward, no matter the obstacles", "I am grateful for the gift of health and wellness", "I am worthy of achieving my dreams", "I am in control of my thoughts and emotions", "I am grateful for all the love and kindness I receive", "I am always becoming the best version of myself", "I am capable of overcoming any challenges", "I am worthy of all the love and success I receive", "I am thankful for each new day and its opportunities", "I am open to giving and receiving abundance", "I am deserving of respect and kindness", "I am proud of who I am becoming", "I am grateful for the lessons I've learned", "I am strong enough to face any challenges that come my way", "I am a magnet for positive change", "I am worthy of financial abundance", "I am confident in my abilities to succeed", "I am full of positive energy and good vibes", "I am deserving of peace and tranquility", "I am grateful for my supportive community", "I am constantly improving myself", "I am capable of turning my dreams into reality", "I am grateful for the present moment", "I am a unique expression of my true self", "I am grateful for the power of choice", "I am worthy of living a fulfilling life", "I am always learning and growing into my best self", "I am deserving of all the love and happiness in the world", "I am open to the blessings that come into my life", "I am a divine being, filled with light and love", "I am worthy of my own love and attention", "I am in charge of how I feel and today I choose happiness", "I am worthy of everything good that happens in my life", "I am a strong, positive person who can overcome anything", "I am grateful for the abundance that flows into my life", "I am the creator of my own destiny", "I am deserving of love, happiness, and peace", "I am worthy of success in all areas of my life", "I am deserving of all the good that comes my way", "I am in charge of how I feel and today I choose joy", "I am at peace with who I am", "I am grateful for my health and well-being", "I am in control of my thoughts and feelings", "I am open to the possibilities life has to offer", "I am constantly growing and evolving", "I am deserving of all the good things life has to offer", "I am open to new opportunities and experiences", "I am capable of achieving my goals", "I am a work in progress and that's okay", "I am proud of who I am becoming", "I am grateful for all that I have", "I am in control of my thoughts, emotions, and actions", "I am deserving of success and happiness", "I am confident in my abilities", "I am thankful for the people in my life", "I am capable of handling whatever comes my way", "I am grateful for the experiences that shape me", "I am deserving of all the love I receive", "I am always becoming the best version of myself", "I am at peace with where I am", "I am confident in my journey and growth", "I trust the timing of my life", "I am grateful for each moment I experience", "I choose to see the good in every situation", "I am worthy of all the abundance life offers", "I am becoming the best version of myself each day", "I am proud of how far I’ve come", "I am the architect of my own happiness", "I am at peace with my past and excited for my future", "I choose to rise above challenges with grace", "I am in control of my actions and reactions", "I am grateful for the lessons that challenge me", "I am confident in my decisions", "I am deserving of all the love, joy, and success in my life", "I am open to endless possibilities", "I am growing stronger each day", "I am deserving of everything good that comes my way", "I trust that the universe is guiding me in the right direction", "I am constantly improving my mindset", "I am capable of achieving my dreams", "I am grateful for the love and support in my life", "I am worthy of respect and kindness", "I am thankful for my resilience and strength", "I am proud of all that I’ve accomplished", "I am capable of handling anything that comes my way", "I am deserving of peace and happiness", "I am confident in my future success", "I am grateful for the opportunity to start anew", "I am a positive force in the world", "I am in charge of my own happiness", "I am thankful for the people in my life who inspire me", "I am open to all the new possibilities life brings", "I am constantly learning and evolving", "I am grateful for the experiences that make me stronger", "I am deserving of success and prosperity", "I am proud of the person I am becoming", "I am confident that I will reach my goals", "I am grateful for every breath I take", "I am capable of transforming my dreams into reality", "I am a magnet for positivity and success", "I am worthy of everything I desire", "I am at peace with myself and the world", "I am grateful for my strength and resilience", "I am deserving of all the happiness I experience", "I am capable of making my dreams come true", "I am thankful for the abundance that surrounds me", "I am a magnet for good fortune and success", "I am confident in my ability to create positive change", "I am worthy of love, success, and happiness", "I am in control of my thoughts and actions", "I am constantly moving forward toward my dreams", "I am proud of the progress I’ve made", "I am worthy of respect and all the good things in life", "I am deserving of a fulfilling and joyful life", "I am thankful for the power of positive thinking", "I am in charge of my happiness and peace", "I am grateful for all the moments of joy in my life", "I am a strong, resilient person who can face anything", "I am capable of achieving anything I set my mind to", "I am grateful for the opportunities that come my way", "I am worthy of all the love and success that comes my way", "I am open to the magic of new beginnings", "I am thankful for the abundance of love in my life", "I am constantly evolving and growing", "I am deserving of everything good in my life", "I am capable of overcoming any obstacles in my way", "I am proud of all the progress I’ve made", "I am deserving of happiness and peace", "I am in control of my destiny", "I am worthy of all the blessings life has to offer", "I am thankful for the beauty of today", "I am a unique and valuable individual", "I am in charge of my own happiness and joy", "I am grateful for the present moment", "I am deserving of a life filled with abundance", "I am capable of achieving all my dreams", "I am thankful for the love and support in my life", "I am worthy of happiness and success", "I am constantly moving forward and growing", "I am proud of all that I have accomplished", "I am confident in my ability to succeed", "I am deserving of everything life has to offer", "I am in control of my own happiness", "I am thankful for the opportunities to grow and improve", "I am grateful for all the lessons life teaches me", "I am worthy of respect and admiration", "I am capable of handling whatever comes my way", "I am proud of the person I am becoming", "I am deserving of all the good things in my life", "I am grateful for every experience that shapes me", "I am capable of turning my dreams into reality", "I am constantly learning and growing", "I am thankful for the love and support that surrounds me", "I am confident in who I am becoming", "I am worthy of all the success and happiness I achieve", "I am open to new opportunities and experiences", "I am deserving of love and abundance", "I am grateful for the simple joys in life", "I am in control of my thoughts and emotions", "I am confident in my ability to create positive change", "I am proud of the person I am becoming every day", "I am capable of overcoming any challenge", "I am worthy of peace and happiness", "I am grateful for the people who support me", "I am deserving of all the good things that come my way", "I am constantly evolving into my best self", "I am capable of achieving greatness", "I am proud of the journey I’m on", "I am thankful for all that I have", "I am open to receiving the abundance of the universe", "I am confident in my ability to succeed", "I am deserving of all the love and joy in the world", "I am grateful for the opportunities that come my way", "I am constantly becoming a better version of myself", "I am thankful for the journey I am on", "I am capable of handling any situation with grace", "I am worthy of success and happiness", "I am grateful for all that I’ve learned", "I am open to receiving all the good that life has to offer", "I am deserving of love, peace, and joy", "I am constantly moving forward and evolving", "I am proud of the person I am becoming", "I am thankful for the love and support in my life", "I am confident in my ability to create a successful future", "I am worthy of all the abundance and love that comes my way", "I am grateful for the lessons life has taught me", "I am open to new beginnings and new opportunities", "I am deserving of all the good things in life", "I am proud of how far I’ve come", "I am capable of creating the life I desire"];
+function displayAffirmations() {
+        const affirmationsBox = document.getElementById("affirmations-box");
+        affirmationsBox.innerHTML = ""; 
+
+        const shuffledAffirmations = affirmations.sort(() => 0.5 - Math.random());
+        const randomAffirmations = shuffledAffirmations.slice(0, 5);
+
+        randomAffirmations.forEach((affirmation, index) => {
+            const p = document.createElement("p");
+            p.textContent = `${index + 1}. ${affirmation}`;
+            affirmationsBox.appendChild(p);
+        });
+    }
+
+    displayAffirmations();
+
+    const openPopup = document.getElementById('openPopup');
+    const closePopup = document.getElementById('closePopup');
+    const pomodoroPopup = document.getElementById('pomodoroPopup');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const workInput = document.getElementById('workDuration');
+    const breakInput = document.getElementById('breakDuration');
+    const startButton = document.getElementById('startTimer');
+    const pauseButton = document.getElementById('pauseTimer');
+    const resetButton = document.getElementById('resetTimer');
+
+    let timerInterval;
+    let isPaused = false;
+    let isWorkTime = true;
+    let currentTime = 0;
+
+    openPopup.addEventListener('click', () => pomodoroPopup.style.display = 'block');
+    closePopup.addEventListener('click', () => {
+      pomodoroPopup.style.display = 'none';
+      clearInterval(timerInterval);
+    });
+
+    startButton.addEventListener('click', () => {
+      if (!isPaused) {
+        currentTime = (isWorkTime ? workInput.value : breakInput.value) * 60;
+      }
+      timerInterval = setInterval(() => {
+        if (currentTime <= 0) {
+          isWorkTime = !isWorkTime;
+          currentTime = (isWorkTime ? workInput.value : breakInput.value) * 60;
+        }
+        updateDisplay();
+        currentTime--;
+      }, 1000);
+      isPaused = false;
+    });
+
+    pauseButton.addEventListener('click', () => {
+      clearInterval(timerInterval);
+      isPaused = true;
+    });
+
+    resetButton.addEventListener('click', () => {
+      clearInterval(timerInterval);
+      isPaused = false;
+      isWorkTime = true;
+      currentTime = workInput.value * 60;
+      updateDisplay();
+    });
+
+    function updateDisplay() {
+      const minutes = Math.floor(currentTime / 60).toString().padStart(2, '0');
+      const seconds = (currentTime % 60).toString().padStart(2, '0');
+      timerDisplay.textContent = `${minutes}:${seconds}`;
+    }
+
+
+
+    updateDisplay();
+
+const reminders = [
+    "Take a deep breath and relax.",
+    "Remember to stay hydrated!",
+    "Stretch your body and give your mind a break.",
+    "Pause and appreciate the present moment.",
+    "Take a moment to smile!",
+    "Practice gratitude today.",
+    "Step outside and enjoy the fresh air.",
+    "Take a short walk to clear your mind.",
+    "Don't forget to check your posture!",
+    "Give yourself a compliment today.",
+    "Take a break and listen to your favorite song.",
+    "Set a small goal for today and achieve it.",
+    "Reflect on something positive that happened today.",
+    "Take a few moments to meditate.",
+    "Write down one thing you're grateful for.",
+    "Revisit your goals and track your progress.",
+    "Unplug from screens for a while.",
+    "Be mindful of your thoughts and emotions.",
+    "Start your day with a positive affirmation.",
+    "Challenge yourself to try something new.",
+    "Give someone a compliment today.",
+    "Make a to-do list to organize your tasks.",
+    "Take a moment to laugh and lighten your mood.",
+    "Practice deep breathing exercises.",
+    "Reflect on a recent accomplishment, no matter how small.",
+    "Treat yourself to something you enjoy.",
+    "Declutter a small space in your environment.",
+    "Smile at a stranger to brighten their day.",
+    "Take time to connect with a loved one.",
+    "Practice being kind to yourself.",
+    "Take a moment to enjoy a cup of tea or coffee.",
+    "Visualize yourself achieving your goals.",
+    "Let go of any stress with a short walk.",
+    "Allow yourself to say 'no' when necessary.",
+    "Find a quiet space and just breathe.",
+    "Be present and mindful in your next conversation.",
+    "Remember, it's okay to rest and recharge.",
+    "Ask yourself what would make today great.",
+    "Do one thing that makes you feel proud.",
+    "Get creative with a hobby you enjoy.",
+    "Reach out to someone you haven’t talked to in a while.",
+    "Plan a mini celebration for something you’ve accomplished.",
+    "Focus on one task at a time.",
+    "Remind yourself that progress takes time.",
+    "Give yourself permission to take a break.",
+    "Surround yourself with things that make you happy.",
+    "Write down three things you're grateful for today.",
+    "Do a kind gesture for someone else.",
+    "Take 5 minutes to stretch or move.",
+    "Think of one way you can improve your day.",
+    "Challenge negative thoughts and replace them with positive ones.",
+    "Take a break from social media for a while.",
+    "Stay present in the moment, without rushing.",
+    "Celebrate the small victories.",
+    "Trust yourself and your abilities.",
+    "Ask for help if you need it.",
+    "Take a few moments to rest your eyes.",
+    "Be proud of how far you’ve come."
+];
+
+function showReminder() {
+    const randomReminder = reminders[Math.floor(Math.random() * reminders.length)];
+    
+    const reminderPopup = document.createElement('div');
+    reminderPopup.id = 'reminder-popup';
+    
+    reminderPopup.innerHTML = `
+        <p>${randomReminder}</p>
+        <button onclick="closeReminder()">Got it</button>
+    `;
+    
+    document.body.appendChild(reminderPopup);
+
+    reminderPopup.style.display = 'block';
+    
+    setTimeout(() => {
+        reminderPopup.style.display = 'none';
+        reminderPopup.remove();
+    }, 600000);  
+}
+
+function closeReminder() {
+    const reminderPopup = document.getElementById('reminder-popup');
+    if (reminderPopup) {
+        reminderPopup.style.display = 'none';
+        reminderPopup.remove();
+    }
+}
+
+setInterval(showReminder, 900000);
+
+document.addEventListener('DOMContentLoaded', () => {
+    showReminder();  
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    let streak = parseInt(localStorage.getItem("currentStreak") || 0);
+    let highScore = parseInt(localStorage.getItem("highScore") || 0);
+    let lastCheckInDate = localStorage.getItem("lastCheckInDate") || new Date().toISOString().slice(0, 10);
+
+    const streakCounter = document.getElementById("streak-counter");
+    const highScoreDisplay = document.getElementById("high-score");
+    const checkInButton = document.getElementById("check-in-button");
+
+    if (!streakCounter || !highScoreDisplay || !checkInButton) {
+        console.error("One or more required elements are missing from the DOM.");
+        return;
+    }
+
+    function updateStreakDisplay() {
+        streakCounter.textContent = `Streak: ${streak}`;
+        highScoreDisplay.textContent = `Highest: ${highScore}`;
+    }
+
+    function enableCheckInButton() {
+        let currentDate = new Date().toISOString().slice(0, 10);
+        checkInButton.disabled = (lastCheckInDate === currentDate);
+    }
+
+    function checkIn() {
+        let currentDate = new Date().toISOString().slice(0, 10);
+
+        streak++;
+        if (streak > highScore) {
+            highScore = streak;
+            localStorage.setItem("highScore", highScore);
+        }
+
+        lastCheckInDate = currentDate;
+        localStorage.setItem("currentStreak", streak);
+        localStorage.setItem("lastCheckInDate", currentDate);
+
+        checkInButton.disabled = true;
+        updateStreakDisplay();
+
+        let now = new Date();
+        let nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+        let timeUntilMidnight = nextMidnight - now;
+
+        setTimeout(enableCheckInButton, Math.max(0, timeUntilMidnight));
+    }
+
+    function resetStreakIfNeeded() {
+        let currentDate = new Date().toISOString().slice(0, 10);
+        let lastDate = new Date(lastCheckInDate);
+        let daysDifference = (new Date(currentDate) - lastDate) / (1000 * 60 * 60 * 24);
+
+        if (daysDifference >= 2) {
+            streak = 0;
+            localStorage.setItem("currentStreak", streak);
+            updateStreakDisplay();
+        }
+    }
+
+    checkInButton.addEventListener('click', checkIn);
+
+    resetStreakIfNeeded();
+    updateStreakDisplay();
+    enableCheckInButton();
+});
+
+const mindfulActions = [
+      "Meditation", "Hydration", "Exercise", "Mindful Breathing", 
+      "Stretching", "Walking", "Yoga", "Gratitude", 
+      "Sleep", "Nature", "Journaling", "Reading", 
+      "Music", "Art", "Mindful Eating", "Deep Breathing",
+      "Meditation", "Hydration", "Exercise", "Mindful Breathing", 
+      "Stretching", "Walking", "Yoga", "Gratitude", 
+      "Sleep", "Nature", "Journaling", "Reading", 
+      "Music", "Art", "Mindful Eating", "Deep Breathing",
+      "Sports", "Jogging", "Jogging", "Sports", 
+    ];
+
+    // Shuffle function to randomize actions
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    // Generate the tiles with symbols
+    function generateMindfulTiles() {
+      shuffle(mindfulActions); // Shuffle the actions
+
+      const tileGrid = document.getElementById('mindfulGameTileGrid');
+      tileGrid.innerHTML = ''; // Clear any existing tiles
+
+      mindfulActions.forEach(action => {
+        const tile = document.createElement('div');
+        tile.classList.add('mindful-game-tile');
+        tile.dataset.symbol = action; // Store the symbol on the tile
+        tile.addEventListener('click', onMindfulTileClick);
+        tileGrid.appendChild(tile);
+      });
+    }
+
+    // Tile reveal logic
+    let revealedTiles = [];
+    let clickable = true; // Variable to control tile clickability
+
+    function onMindfulTileClick(event) {
+      const tile = event.target;
+
+      if (!clickable || tile.classList.contains('revealed')) return; // Disable click if already revealed or waiting
+
+      tile.classList.add('revealed');
+      tile.textContent = tile.dataset.symbol;
+      revealedTiles.push(tile);
+
+      if (revealedTiles.length === 2) {
+        clickable = false; // Disable further clicks
+        checkMindfulMatch();
+      }
+    }
+
+    // Check if the two revealed tiles match
+    function checkMindfulMatch() {
+      const [tile1, tile2] = revealedTiles;
+
+      if (tile1.dataset.symbol === tile2.dataset.symbol) {
+        tile1.classList.add('matched');
+        tile2.classList.add('matched');
+        showMindfulnessTip(tile1.dataset.symbol);
+        setTimeout(() => {
+          revealedTiles = [];
+          clickable = true; // Re-enable clicking
+        }, 1000); // Allow clicking after 1 second
+      } else {
+        setTimeout(() => {
+          tile1.classList.remove('revealed');
+          tile2.classList.remove('revealed');
+          tile1.textContent = '';
+          tile2.textContent = '';
+          revealedTiles = [];
+          clickable = true; // Re-enable clicking after 2-3 seconds
+        }, 2000); // 2-second delay before re-enabling clicks
+      }
+    }
+
+    // Show a mindfulness tip after a successful match
+    function showMindfulnessTip(action) {
+      const tipContainer = document.getElementById('mindfulGameMindfulnessTipContainer');
+      tipContainer.innerHTML = ''; // Clear previous tip
+
+      const tip = document.createElement('div');
+      tip.classList.add('mindful-game-tip');
+      tip.textContent = `Tip: Try practicing ${action.toLowerCase()} daily for better mental clarity!`;
+
+      tipContainer.appendChild(tip);
+    }
+
+    // Show the game popup
+    document.getElementById('mindfulGameButton').addEventListener('click', () => {
+      const popup = document.getElementById('mindfulGamePopup');
+      popup.style.display = 'block';
+      generateMindfulTiles(); // Generate new shuffled grid each time the popup is opened
+    });
+
+    // Close the game popup
+    document.getElementById('mindfulGameCloseBtn').addEventListener('click', () => {
+      document.getElementById('mindfulGamePopup').style.display = 'none';
+    });
+
+    </script>
+</body>
+</html>

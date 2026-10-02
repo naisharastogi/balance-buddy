@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot for Assistance</title>
+    <style>
+        .chat-container {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 10px;
+            width: 260px;
+            max-height: 400px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .chat-header {
+            background-color: #062e3f;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .chat-messages {
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+        }
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+        .input-container input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            background-color: #062e3f;
+            color: white;
+        }
+        .user-message {
+            background-color: #c1dae8;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #062e3f;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<button class="chat-button" id="chat-button">💬</button>
+
+<div class="chat-container" id="chat-container">
+    <div class="chat-header">Chatbot for Assistance</div>
+    <div class="chat-messages" id="chat-messages">
+        <div class="bot-message">Hello! How can I assist you today? Type 'hello' to start. 😊</div>
+    </div>
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button id="send-button">Send</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chatButton = document.getElementById("chat-button");
+        const chatContainer = document.getElementById("chat-container");
+        const sendButton = document.getElementById("send-button");
+        const userInput = document.getElementById("user-input");
+        const chatMessages = document.getElementById("chat-messages");
+
+        let currentTopic = null; // Tracks user's topic selection
+
+        chatButton.addEventListener("click", function () {
+            chatContainer.style.display = chatContainer.style.display === "block" ? "none" : "block";
+        });
+
+        sendButton.addEventListener("click", sendMessage);
+        userInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") sendMessage();
+        });
+
+        function sendMessage() {
+            const input = userInput.value.trim();
+            if (input === "") return;
+
+            appendMessage(input, "user-message");
+            userInput.value = "";
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            setTimeout(() => handleUserInput(input), 500);
+        }
+
+        function handleUserInput(input) {
+            input = input.toLowerCase();
+            let botResponse;
+
+            if (!currentTopic) {
+                if (input.includes("hello") || input.includes("hi")) {
+                    botResponse = `Hey there! What do you need help with? 😊\n\n` +
+                        `1️⃣ Study Tips\n` +
+                        `2️⃣ Motivation\n` +
+                        `3️⃣ Task Management\n` +
+                        `4️⃣ Stress Relief\n` +
+                        `5️⃣ Time Management\n` +
+                        `6️⃣ Productivity Hacks\n` +
+                        `7️⃣ Self-Care Tips\n\n` +
+                        `Type a number to choose a topic!`;
+                } else if (["1", "2", "3", "4", "5", "6", "7"].includes(input)) {
+                    handleTopicSelection(input);
+                    return;
+                } else {
+                    botResponse = "I didn't get that. Type 'hello' to start or choose a number!";
+                }
+            } else {
+                handleFollowUp(input);
+                return;
+            }
+
+            displayBotMessage(botResponse);
+        }
+
+        function handleTopicSelection(input) {
+            const topics = {
+                "1": ["study", "📚 Pomodoro technique: 25 min work, 5 min break! \n\nStruggle?\nA) Concentration\nB) Retaining info\nC) Procrastination"],
+                "2": ["motivation", "💪 Stay motivated! Set small goals. \n\nWhat works for you?\nA) Rewards\nB) Positive affirmations\nC) Accountability partners"],
+                "3": ["tasks", "✅ Use Eisenhower Matrix! \n\nHow do you manage tasks?\nA) To-do lists\nB) Calendar planning\nC) I wing it"],
+                "4": ["stress", "🧘 Try deep breathing! \n\nHow do you de-stress?\nA) Exercise\nB) Meditation\nC) Music"],
+                "5": ["time", "⏳ Block distractions! \n\nBiggest struggle?\nA) Distractions\nB) Planning ahead\nC) Sticking to schedules"],
+                "6": ["productivity", "🚀 Use the 'Two-Minute Rule'! \n\nYour biggest issue?\nA) Multitasking\nB) Low energy\nC) Lack of focus"],
+                "7": ["selfcare", "🌿 Hydrate & sleep well! \n\nFav self-care activity?\nA) Reading\nB) Yoga\nC) Watching a movie"]
+            };
+
+            currentTopic = topics[input][0];
+            displayBotMessage(topics[input][1]);
+        }
+
+        function handleFollowUp(input) {
+            const responses = {
+                "study": { "a": "Try background noise or meditation!", "b": "Use active recall!", "c": "Break work into smaller tasks!" },
+                "motivation": { "a": "Reward yourself after tasks!", "b": "Start with affirmations!", "c": "Find a study buddy!" },
+                "tasks": { "a": "To-do lists are great! Add deadlines!", "b": "Color-code tasks in a planner!", "c": "Setting priorities helps!" },
+                "stress": { "a": "Exercise releases endorphins!", "b": "Meditation calms the mind!", "c": "Music boosts mood!" },
+                "time": { "a": "Turn off notifications!", "b": "Plan ahead the night before!", "c": "Stick to a routine!" },
+                "productivity": { "a": "Multitasking reduces focus!", "b": "Stay hydrated and take breaks!", "c": "Try the 90-minute work cycle!" },
+                "selfcare": { "a": "Reading expands the mind!", "b": "Yoga is great for well-being!", "c": "Movies help relax!" }
+            };
+
+            displayBotMessage(responses[currentTopic][input] || "Not sure I understood. Try again!");
+            currentTopic = null;
+            displayBotMessage("Want to ask about something else? Type 'hello' to restart!");
+        }
+
+        function appendMessage(text, className) {
+            const msg = document.createElement("div");
+            msg.className = className;
+            msg.textContent = text;
+            chatMessages.appendChild(msg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    });
+</script>
+
+</body>
+</html>
